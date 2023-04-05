@@ -1,0 +1,25 @@
+spring:
+    flyway:
+        enabled: true 
+    jpa:
+        database: POSTGRESQL
+        show-sql: true
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate: 
+            ddl-auto: none
+    sql:
+        init:
+            platform: postgres
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:15432/ebertsshop
+        username: postgres
+        password: Postgres2019!
+server:
+    port: 7777
+security:
+    jwt:
+        token:
+            secret-key: N3tW0rk5
+            expire-lenght: 3600000
+
