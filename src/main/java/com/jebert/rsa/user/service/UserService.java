@@ -3,8 +3,10 @@ package com.jebert.rsa.user.service;
 
 import com.jebert.rsa.exceptions.ObjectNotFoundException;
 import com.jebert.rsa.user.model.User;
+import com.jebert.rsa.user.model.helper.UserVo;
 import com.jebert.rsa.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,6 +57,11 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found"+ username);
         }
 
+        return user;
+    }
+
+    public User convertUserFromVo(@Valid UserVo userVo){
+        User user = new User(null, userVo.userName(), userVo.fullName(), userVo.password(), userVo.email(), userVo.accountNonExpired(), userVo.accountNonLocked(), userVo.credentialsNonExpired(), userVo.enabled());
         return user;
     }
 }

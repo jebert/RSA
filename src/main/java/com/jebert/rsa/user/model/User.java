@@ -41,6 +41,17 @@ public class User implements Serializable, UserDetails {
     @Column(name = "enabled")
     private Boolean enabled;
 
+    public User(UUID id, String userName, String fullName, String password, String email, Boolean accountNonExpired, Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled) {
+        this.id = id;
+        this.userName = userName;
+        this.fullName = fullName;
+        this.password = password;
+        this.email = email;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.enabled = enabled;
+    }
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_permission", joinColumns = {@JoinColumn (name = "id_user")},
