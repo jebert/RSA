@@ -1,6 +1,7 @@
 spring:
     flyway:
-        enabled: true 
+        enabled: true
+        locations:  sql
     jpa:
         database: POSTGRESQL
         show-sql: true
@@ -12,7 +13,7 @@ spring:
             platform: postgres
     datasource:
         driver-class-name: org.postgresql.Driver
-        url: jdbc:postgresql://localhost:15432/ebertsshop
+        url: jdbc:postgresql://localhost:15432/rsa
         username: postgres
         password: Postgres2019!
 server:

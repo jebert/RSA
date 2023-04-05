@@ -2,6 +2,7 @@ package com.jebert.rsa.user.service;
 
 
 import com.jebert.rsa.exceptions.ObjectNotFoundException;
+import com.jebert.rsa.permission.service.PermissionService;
 import com.jebert.rsa.user.model.User;
 import com.jebert.rsa.user.model.helper.UserVo;
 import com.jebert.rsa.user.repository.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +24,12 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
 
     @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
     private UserRepository repository;
 
+    @Autowired
+    PermissionService permissionService;
     public UserService() {}
 
     public List<User> findAllUsers() {
@@ -61,7 +67,15 @@ public class UserService implements UserDetailsService {
     }
 
     public User convertUserFromVo(@Valid UserVo userVo){
-        User user = new User(null, userVo.userName(), userVo.fullName(), userVo.password(), userVo.email(), userVo.accountNonExpired(), userVo.accountNonLocked(), userVo.credentialsNonExpired(), userVo.enabled());
-        return user;
+        User user = new User(null, userVo.userName(), userVo.fullName(), passwordEncoder.encode(userVo.password()), userVo.email(), userVo.accountNonExpired(), userVo.accountNonLocked(), userVo.credentialsNonExpired(), userVo.enabled());
+        for (String role: userVo.roleDescription()) {
+            var permission = permissionService.findBydescription(role);
+            if (permission == null) {
+                throw new ObjectNotFoundException("Permision " + role + " not found!" );
+            }else {
+                user.addPermission(permission);
+            }
+
+        }return user;
     }
 }

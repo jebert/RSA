@@ -1,9 +1,8 @@
 package com.jebert.rsa.user.model;
 
-import com.jebert.rsa.user.model.helper.Permission;
+import com.jebert.rsa.permission.model.Permission;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
@@ -57,10 +56,13 @@ public class User implements Serializable, UserDetails {
     @JoinTable(name = "user_permission", joinColumns = {@JoinColumn (name = "id_user")},
             inverseJoinColumns = {@JoinColumn (name = "id_permission")}
     )
-    private List<Permission> permissions;
+    private List<Permission> permissions = new ArrayList<>();
 
     public User() {}
 
+    public void addPermission(Permission p){
+        this.permissions.add(p);
+    }
     public List<String> getRoles() {
         List<String> roles = new ArrayList<>();
         for (Permission permission : permissions) {

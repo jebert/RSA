@@ -13,6 +13,7 @@ public record UserVo(UUID id,
                      @NotNull(message = "Please define - Account isn´t Expired?")Boolean accountNonExpired,
                      @NotNull(message = "Please define - Account isn´t Locked?")Boolean accountNonLocked,
                      @NotNull(message = "Please define - Credentials aren´t Expired?")Boolean credentialsNonExpired,
-                     @NotNull(message = "Please define - Account is enabled?")Boolean enabled) {
+                     @NotNull(message = "Please define - Account is enabled?")Boolean enabled,
+                     @NotNull(message = "Please enter Username!") String[] roleDescription) {
 
 }
