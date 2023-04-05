@@ -1,4 +1,4 @@
-package com.jebert.rsa.user.model.helper;
+package com.jebert.rsa.entities.user.model.vo;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

@@ -1,7 +1,7 @@
-package com.jebert.rsa.permission.service;
+package com.jebert.rsa.entities.permission.service;
 
-import com.jebert.rsa.permission.model.Permission;
-import com.jebert.rsa.permission.repository.PermissionRepository;
+import com.jebert.rsa.entities.permission.model.Permission;
+import com.jebert.rsa.entities.permission.repository.PermissionRepository;
 import org.springframework.stereotype.Service;
 
 
@@ -20,7 +20,7 @@ public class PermissionService {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
-    private PermissionRepository repository;
+    PermissionRepository repository;
 
     public PermissionService() {}
 
@@ -33,7 +33,7 @@ public class PermissionService {
         return Optional.of(Permission.orElseThrow(()-> new ObjectNotFoundException("Permission not found with id:" + id.toString())));
     }
 
-    public Permission findBydescription (String description){
+    public Permission findByDescription(String description){
         var p = repository.findByDescription(description);
         return p;
     }

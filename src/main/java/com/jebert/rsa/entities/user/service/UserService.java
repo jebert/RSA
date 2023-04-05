@@ -1,15 +1,14 @@
-package com.jebert.rsa.user.service;
+package com.jebert.rsa.entities.user.service;
 
 
+import com.jebert.rsa.entities.permission.service.PermissionService;
+import com.jebert.rsa.entities.user.model.vo.UserVo;
 import com.jebert.rsa.exceptions.ObjectNotFoundException;
-import com.jebert.rsa.permission.service.PermissionService;
-import com.jebert.rsa.user.model.User;
-import com.jebert.rsa.user.model.helper.UserVo;
-import com.jebert.rsa.user.repository.UserRepository;
+import com.jebert.rsa.entities.user.model.User;
+import com.jebert.rsa.entities.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -69,13 +68,12 @@ public class UserService implements UserDetailsService {
     public User convertUserFromVo(@Valid UserVo userVo){
         User user = new User(null, userVo.userName(), userVo.fullName(), passwordEncoder.encode(userVo.password()), userVo.email(), userVo.accountNonExpired(), userVo.accountNonLocked(), userVo.credentialsNonExpired(), userVo.enabled());
         for (String role: userVo.roleDescription()) {
-            var permission = permissionService.findBydescription(role);
+            var permission = permissionService.findByDescription(role);
             if (permission == null) {
                 throw new ObjectNotFoundException("Permision " + role + " not found!" );
             }else {
                 user.addPermission(permission);
             }
-
         }return user;
     }
 }

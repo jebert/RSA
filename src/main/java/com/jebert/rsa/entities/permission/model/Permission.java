@@ -1,4 +1,4 @@
-package com.jebert.rsa.permission.model;
+package com.jebert.rsa.entities.permission.model;
 
 import java.io.Serializable;
 import java.util.UUID;

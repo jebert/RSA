@@ -1,9 +1,9 @@
-package com.jebert.rsa.user.controller;
+package com.jebert.rsa.entities.user.controller;
 import java.util.UUID;
 
-import com.jebert.rsa.user.model.User;
-import com.jebert.rsa.user.model.helper.UserVo;
-import com.jebert.rsa.user.service.UserService;
+import com.jebert.rsa.entities.user.model.User;
+import com.jebert.rsa.entities.user.model.vo.UserVo;
+import com.jebert.rsa.entities.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

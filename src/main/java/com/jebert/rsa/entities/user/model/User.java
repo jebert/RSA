@@ -1,6 +1,6 @@
-package com.jebert.rsa.user.model;
+package com.jebert.rsa.entities.user.model;
 
-import com.jebert.rsa.permission.model.Permission;
+import com.jebert.rsa.entities.permission.model.Permission;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
