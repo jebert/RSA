@@ -1,5 +1,8 @@
 package com.jebert.rsa.config;
 
+import com.jebert.rsa.security.jwt.JwtConfigurer;
+import com.jebert.rsa.security.jwt.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +23,9 @@ import java.util.Map;
 @Service
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -50,6 +56,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         //http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.httpBasic().disable()
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -57,6 +64,7 @@ public class SecurityConfig {
                 .requestMatchers(AUTH_WHITELIST).permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/signin", "/user/**").permitAll()
                 .anyRequest().authenticated()
+                .and().apply(new JwtConfigurer(jwtTokenProvider))
                 .and().cors()
                 .and().build();
     }
