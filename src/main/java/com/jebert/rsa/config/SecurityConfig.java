@@ -49,7 +49,7 @@ public class SecurityConfig {
             "/logout",
             "/auth/refresh",
             "/error",
-            "/city",
+            "/city/**",
             "/auth",
             "/refresh/**"
     };

@@ -1,6 +1,6 @@
 package com.jebert.rsa.security.service;
 import com.jebert.rsa.entities.user.service.UserService;
-import com.jebert.rsa.security.controller.vo.AccountCredentialsVo;
+import com.jebert.rsa.security.controller.vo.LoginVo;
 import com.jebert.rsa.security.controller.vo.TokenVo;
 import com.jebert.rsa.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class AuthService {
     @Autowired
     private UserService userService;
 
-    public ResponseEntity signin (AccountCredentialsVo data){
+    public ResponseEntity signin (LoginVo data){
         try {
             var username = data.username();
             var password = data.password();
