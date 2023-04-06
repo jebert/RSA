@@ -1,4 +1,4 @@
-package com.jebert.rsa.entities.address;
+package com.jebert.rsa.entities.address.model;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -41,4 +41,7 @@ public class CityService {
         return p;
     }
 
+    public City findCityByIbgeCode(Integer ibge) {
+        return cityRepository.findCityByIbgeCode(ibge);
+    }
 }

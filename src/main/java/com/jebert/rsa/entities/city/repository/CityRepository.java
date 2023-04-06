@@ -19,4 +19,6 @@ public interface CityRepository extends JpaRepository<City, Integer> {
             @Param("cityName") String cityName,
             @Param("state") String state,
             Pageable pageable);
+
+    City findCityByIbgeCode(Integer ibgeCode);
 }
