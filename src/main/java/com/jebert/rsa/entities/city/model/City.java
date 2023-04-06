@@ -16,6 +16,7 @@ public class City implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+
     private Integer ibgeCode;
     private String name;
     private String state;
