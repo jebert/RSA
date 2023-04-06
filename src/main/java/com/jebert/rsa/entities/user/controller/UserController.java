@@ -4,6 +4,8 @@ import java.util.UUID;
 import com.jebert.rsa.entities.user.model.User;
 import com.jebert.rsa.entities.user.model.vo.UserVo;
 import com.jebert.rsa.entities.user.service.UserService;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,8 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "user")
-@Tag(name = "User", description = "Endpoints to Manage Useres")
+@Tag(name = "User", description = "Endpoints to Manage Users")
+@SecurityRequirement(name = "Bearer Authentication")
 public class UserController {
 
     @Autowired
@@ -49,8 +52,12 @@ public class UserController {
 
     @GetMapping( produces = "application/json")
     @Operation(summary = "Find all Saved User", tags = "User", responses = {
-            @ApiResponse(description = "Success", responseCode = "200", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
+            @ApiResponse(description = "Success", responseCode = "200",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = User.class)))
+                    }
+            ),
             @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
             @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),

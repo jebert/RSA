@@ -38,7 +38,6 @@ public class SecurityConfig {
         return passwordEncoder;
     }
 
-
     @Bean
     AuthenticationManager authenticationManagerBean (AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -50,6 +49,7 @@ public class SecurityConfig {
             "/logout",
             "/auth/refresh",
             "/error",
+            "/city",
             "/auth"
     };
 
@@ -61,7 +61,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests()
-                .requestMatchers(AUTH_WHITELIST).permitAll()
+                .requestMatchers(HttpMethod.GET, AUTH_WHITELIST).permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/signin").permitAll()
                 .requestMatchers(HttpMethod.POST, "/user/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
