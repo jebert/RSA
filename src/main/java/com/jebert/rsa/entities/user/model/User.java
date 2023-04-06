@@ -1,7 +1,6 @@
 package com.jebert.rsa.entities.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.jebert.rsa.entities.permission.model.Permission;
 import jakarta.persistence.*;
@@ -26,7 +25,7 @@ public class User implements Serializable, UserDetails {
     @Column(name = "full_name")
     private String fullName;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
