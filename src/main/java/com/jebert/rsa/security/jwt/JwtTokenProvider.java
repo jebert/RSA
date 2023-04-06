@@ -30,7 +30,7 @@ public class JwtTokenProvider {
     private long validityInMilliseconds= 3600000;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    UserDetailsService userDetailsService;
     @Autowired
     public JwtTokenProvider(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;

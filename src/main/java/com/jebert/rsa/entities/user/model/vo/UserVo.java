@@ -5,8 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record UserVo(UUID id,
-                     @NotNull(message = "Please enter Username!") String userName,
+public record UserVo(@NotNull(message = "Please enter Username!") String userName,
                      @NotNull(message = "Please enter fullName!")String fullName,
                      @NotNull(message = "Please enter password!")String password,
                      @NotNull(message = "Please enter a e-mail!") @Email String email,
@@ -15,5 +14,4 @@ public record UserVo(UUID id,
                      @NotNull(message = "Please define - Credentials aren´t Expired?")Boolean credentialsNonExpired,
                      @NotNull(message = "Please define - Account is enabled?")Boolean enabled,
                      @NotNull(message = "Please enter Username!") String[] roleDescription) {
-
 }

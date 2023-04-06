@@ -16,9 +16,6 @@ import java.util.UUID;
 
 @Service
 public class PermissionService {
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
     @Autowired
     PermissionRepository repository;
 

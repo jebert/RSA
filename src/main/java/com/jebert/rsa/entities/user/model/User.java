@@ -1,5 +1,8 @@
 package com.jebert.rsa.entities.user.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.jebert.rsa.entities.permission.model.Permission;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,6 +13,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
+@JsonPropertyOrder({"id","username","fullName","email","roles","accountNonExpired","accountNonLocked","credentialsNonExpired","enable"})
 public class User implements Serializable, UserDetails {
     private static final long serialVersionUID = 1L;
     @Id
@@ -22,6 +26,7 @@ public class User implements Serializable, UserDetails {
     @Column(name = "full_name")
     private String fullName;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password")
     private String password;
 
@@ -51,7 +56,6 @@ public class User implements Serializable, UserDetails {
         this.credentialsNonExpired = credentialsNonExpired;
         this.enabled = enabled;
     }
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_permission", joinColumns = {@JoinColumn (name = "id_user")},
             inverseJoinColumns = {@JoinColumn (name = "id_permission")}
@@ -70,11 +74,13 @@ public class User implements Serializable, UserDetails {
         }
         return roles;
     }
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.permissions;
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return this.password;

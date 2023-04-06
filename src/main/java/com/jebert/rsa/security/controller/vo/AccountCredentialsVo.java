@@ -4,9 +4,6 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public record AccountCredentialsVo(
-        @NotNull(message = "Please enter Username!") @NotEmpty(message = "Please enter Username!")
-        String username,
-
-        @NotNull(message = "Please enter Username!") @NotEmpty(message = "Please enter Username!")
-        String password){
+        @NotNull(message = "Please enter Username!")String username,
+        @NotNull(message = "Please enter Password!")String password){
 }

@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
     @Autowired
-    private AuthenticationManager authenticationManager;
+    AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private UserService userService;

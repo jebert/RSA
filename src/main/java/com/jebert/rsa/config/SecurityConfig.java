@@ -26,9 +26,8 @@ public class SecurityConfig {
 
     @Autowired
     JwtTokenProvider jwtTokenProvider;
-
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public static PasswordEncoder passwordEncoder(){
 
         Map<String, PasswordEncoder> encoders = new HashMap<>();
         Pbkdf2PasswordEncoder pbkdf2Encoder = new Pbkdf2PasswordEncoder("",8,185000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256);
@@ -38,6 +37,7 @@ public class SecurityConfig {
 
         return passwordEncoder;
     }
+
 
     @Bean
     AuthenticationManager authenticationManagerBean (AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -62,7 +62,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests()
                 .requestMatchers(AUTH_WHITELIST).permitAll()
-                .requestMatchers(HttpMethod.POST, "/auth/signin", "/user/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/auth/signin").permitAll()
+                .requestMatchers(HttpMethod.POST, "/user/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and().apply(new JwtConfigurer(jwtTokenProvider))
                 .and().cors()

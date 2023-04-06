@@ -2,10 +2,10 @@ package com.jebert.rsa.entities.user.service;
 
 
 import com.jebert.rsa.entities.permission.service.PermissionService;
-import com.jebert.rsa.entities.user.model.vo.UserVo;
-import com.jebert.rsa.exceptions.ObjectNotFoundException;
 import com.jebert.rsa.entities.user.model.User;
+import com.jebert.rsa.entities.user.model.vo.UserVo;
 import com.jebert.rsa.entities.user.repository.UserRepository;
+import com.jebert.rsa.exceptions.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +21,9 @@ import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
-
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
     private UserRepository repository;
 
@@ -57,11 +57,9 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
         User user = findUserByUsername(username);
-
         if (user == null) {
             throw new UsernameNotFoundException("User not found"+ username);
         }
-
         return user;
     }
 

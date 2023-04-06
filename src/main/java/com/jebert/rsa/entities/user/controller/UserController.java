@@ -50,7 +50,7 @@ public class UserController {
     @GetMapping( produces = "application/json")
     @Operation(summary = "Find all Saved User", tags = "User", responses = {
             @ApiResponse(description = "Success", responseCode = "200", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = User[].class)) }),
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }),
             @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
             @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
