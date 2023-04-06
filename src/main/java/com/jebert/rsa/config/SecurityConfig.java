@@ -50,7 +50,8 @@ public class SecurityConfig {
             "/auth/refresh",
             "/error",
             "/city",
-            "/auth"
+            "/auth",
+            "/refresh/**"
     };
 
     @Bean
