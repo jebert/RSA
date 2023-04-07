@@ -46,14 +46,15 @@ public class AuthService {
 
     public ResponseEntity refreshToken (String username, String refreshToken) {
         var user = userService.findUserByUsername(username);
+        var tokenResponse = new TokenVo();
 
-        TokenVo tokenVo;
         if (user != null) {
-            tokenVo = jwtTokenProvider.refreshToken(refreshToken);
+            tokenResponse = jwtTokenProvider.refreshToken(refreshToken);
+
         } else {
             throw new UsernameNotFoundException("Username " + username + " not found!");
         }
-        return ResponseEntity.ok(tokenVo);
+        return ResponseEntity.ok(tokenResponse);
 
     }
 

@@ -3,7 +3,9 @@ package com.jebert.rsa.entities.address.controller;
 import com.jebert.rsa.entities.address.helper.AddressVo;
 import com.jebert.rsa.entities.address.model.Address;
 import com.jebert.rsa.entities.address.service.AddressService;
+import com.jebert.rsa.entities.city.model.City;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,6 +39,23 @@ public class AddressController {
     public ResponseEntity<?> findAddressByUUID(@PathVariable UUID uuid) {
 
         return ResponseEntity.ok(addressService.findAddressById(uuid).get());
+    }
+
+    @GetMapping(value = "/{state}/{city}/{street}", produces = "application/json")
+    @Operation(summary = "Find addresses by State, City and Street", tags = "Address", responses = {
+            @ApiResponse(description = "Success", responseCode = "200",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = Address.class)))
+                    }
+            ),
+            @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
+            @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+            @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+            @ApiResponse(description = "Internal  Error", responseCode = "500", content = @Content) })
+    public ResponseEntity<?> findAddresByPartial(@PathVariable String state, @PathVariable String city, @PathVariable String street) {
+        return ResponseEntity.ok(addressService.findAddressByPartial(state, city, street));
     }
 
     @GetMapping( produces = "application/json")

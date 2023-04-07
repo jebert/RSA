@@ -48,7 +48,7 @@ public class AddressService {
         return Optional.of(convertFromAddressVoForViaCep(x));
     }
 
-    public List<Address> getAddressByAddressPartial(String state, String city, String street) {
+    public List<Address> findAddressByPartial(String state, String city, String street) {
 
         List<Address> lista = new ArrayList<>();
 

@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig {
 
     @Autowired
@@ -47,11 +47,8 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/api-docs/**",
             "/logout",
-            "/auth/refresh",
             "/error",
             "/city/**",
-            "/auth",
-            "/refresh/**"
     };
 
     @Bean
@@ -62,9 +59,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET, AUTH_WHITELIST).permitAll()
+                .requestMatchers( AUTH_WHITELIST).permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/signin").permitAll()
                 .requestMatchers(HttpMethod.POST, "/user/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/auth/refresh/**").permitAll()
                 .anyRequest().authenticated()
                 .and().apply(new JwtConfigurer(jwtTokenProvider))
                 .and().cors()
