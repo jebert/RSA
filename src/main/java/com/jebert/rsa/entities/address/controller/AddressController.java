@@ -1,9 +1,8 @@
 package com.jebert.rsa.entities.address.controller;
 
-import com.jebert.rsa.entities.address.helper.AddressVo;
+import com.jebert.rsa.entities.address.model.vo.AddressVo;
 import com.jebert.rsa.entities.address.model.Address;
 import com.jebert.rsa.entities.address.service.AddressService;
-import com.jebert.rsa.entities.city.model.City;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -69,7 +68,7 @@ public class AddressController {
             @ApiResponse(description = "Internal  Error", responseCode = "500", content = @Content) })
     public ResponseEntity<?> findAllAddresses() {
 
-        return ResponseEntity.ok(addressService.findAllAddresss());
+        return ResponseEntity.ok(addressService.findAllAddress());
     }
 
 

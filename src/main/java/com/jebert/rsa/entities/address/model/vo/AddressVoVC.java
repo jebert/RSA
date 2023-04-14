@@ -1,4 +1,4 @@
-package com.jebert.rsa.entities.address.helper;
+package com.jebert.rsa.entities.address.model.vo;
 
 public record AddressVoVC(String cep,
                           String logradouro,

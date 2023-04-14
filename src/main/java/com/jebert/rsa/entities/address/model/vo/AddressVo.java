@@ -1,4 +1,4 @@
-package com.jebert.rsa.entities.address.helper;
+package com.jebert.rsa.entities.address.model.vo;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
