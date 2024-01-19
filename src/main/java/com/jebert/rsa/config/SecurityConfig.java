@@ -43,12 +43,14 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
     private static final String[] AUTH_WHITELIST = {
+            "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/api-docs/**",
             "/logout",
             "/error",
             "/city/**",
+            "/address/**"
     };
 
     @Bean

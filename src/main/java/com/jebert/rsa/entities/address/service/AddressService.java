@@ -3,10 +3,14 @@ package com.jebert.rsa.entities.address.service;
 import com.jebert.rsa.entities.address.model.vo.AddressVo;
 import com.jebert.rsa.entities.address.model.vo.AddressVoVC;
 import com.jebert.rsa.entities.address.model.Address;
+import com.jebert.rsa.entities.address.model.vo.CEPVo;
 import com.jebert.rsa.entities.address.repository.AddressRepository;
 import com.jebert.rsa.entities.city.service.CityService;
 import com.jebert.rsa.exceptions.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -27,7 +31,7 @@ public class AddressService {
 
     @Transactional
     public Address saveAddress(Address address) {
-        return address = addressRepository.save(address);
+        return addressRepository.save(address);
     }
 
     public List<Address> findAllAddress() {
@@ -38,8 +42,10 @@ public class AddressService {
         return Optional.of(addressRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Address not found with id:" + id.toString())));
     }
 
-    public Optional<Address> findAddressByCep(String cep) {
-        AddressVoVC x = new RestTemplate().getForEntity( URL + cep + "/json/", AddressVoVC.class).getBody();
+    public Optional<Address> findAddressByCep(CEPVo cep) {
+
+
+        AddressVoVC x = new RestTemplate().getForEntity( URL + cep.cep() + "/json/", AddressVoVC.class).getBody();
 
         if (x.cep() == null) throw new ObjectNotFoundException("CEP: " + cep + " is not valid!");
         return Optional.of(convertFromAddressVoForViaCep(x));
@@ -62,8 +68,9 @@ public class AddressService {
         return new Address(null, vo.cep(), vo.logradouro(), null, vo.complemento(), vo.bairro(), false, cityService.findCityByIbgeCode(vo.ibge()));
     }
 
+
     public Address ConvertAddressFromVo(AddressVo addressVo) {
-        Address address = findAddressByCep(addressVo.cep()).get();
+        Address address = findAddressByCep(new CEPVo(addressVo.cep())).get();
         address.setNumber(addressVo.number());
         address.setComplement(addressVo.complement());
         address.setDeliveryAddress(addressVo.deliveryAddress());
