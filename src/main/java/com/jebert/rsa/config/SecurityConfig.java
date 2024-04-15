@@ -16,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Service;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +53,10 @@ public class SecurityConfig {
             "/logout",
             "/error",
             "/city/**",
-            "/address/**"
+            "/address/**",
+            "/auth/signin",
+            "/auth/login",
+            "/auth/refresh/**"
     };
 
     @Bean
@@ -62,12 +68,25 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests()
                 .requestMatchers( AUTH_WHITELIST).permitAll()
-                .requestMatchers(HttpMethod.POST, "/auth/signin").permitAll()
                 .requestMatchers(HttpMethod.POST, "/user/**").hasAuthority("ROLE_ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/auth/refresh/**").permitAll()
                 .anyRequest().authenticated()
                 .and().apply(new JwtConfigurer(jwtTokenProvider))
                 .and().cors()
                 .and().build();
     }
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+
+        
+        config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        config.setAllowCredentials(true);
+
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+
 }

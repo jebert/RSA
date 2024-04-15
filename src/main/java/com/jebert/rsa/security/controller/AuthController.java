@@ -1,6 +1,7 @@
 package com.jebert.rsa.security.controller;
 
 import com.jebert.rsa.security.controller.vo.LoginVo;
+import com.jebert.rsa.security.controller.vo.SigninVo;
 import com.jebert.rsa.security.controller.vo.TokenVo;
 import com.jebert.rsa.security.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,11 +30,24 @@ public class AuthController {
             @ApiResponse(description = "Unauthorized", responseCode = "403", content = @Content),
             @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal  Error", responseCode = "500", content = @Content) })
-    @PostMapping(value = "/signin", produces = { "application/json", "application/xml", "application/x-yaml" },
+    @PostMapping(value = "/login", produces = { "application/json", "application/xml", "application/x-yaml" },
             consumes = { "application/json", "application/xml", "application/x-yaml" })
-    public ResponseEntity signin(@RequestBody @Valid LoginVo data) {
-        return authService.signin(data);
+    public ResponseEntity login(@RequestBody @Valid LoginVo data) {
+        return authService.login(data);
     }
+
+    @Operation(summary = "Save a user and returns a token", tags = "Authentication EndPoint", responses = {
+        @ApiResponse(description = "Created", responseCode = "201", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = TokenVo.class)) }),
+        @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+        @ApiResponse(description = "Unauthorized", responseCode = "403", content = @Content),
+        @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+        @ApiResponse(description = "Internal  Error", responseCode = "500", content = @Content) })
+@PostMapping(value = "/signin", produces = { "application/json", "application/xml", "application/x-yaml" },
+        consumes = { "application/json", "application/xml", "application/x-yaml" })
+public ResponseEntity signin(@RequestBody @Valid SigninVo data) {
+    return authService.signin(data);
+}
 
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary = "Generate a new token, using its refreshToken and username information", tags = "Authentication EndPoint", responses = {

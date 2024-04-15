@@ -1,6 +1,8 @@
 package com.jebert.rsa.security.service;
+import com.jebert.rsa.entities.user.model.User;
 import com.jebert.rsa.entities.user.service.UserService;
 import com.jebert.rsa.security.controller.vo.LoginVo;
+import com.jebert.rsa.security.controller.vo.SigninVo;
 import com.jebert.rsa.security.controller.vo.TokenVo;
 import com.jebert.rsa.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ public class AuthService {
     @Autowired
     private UserService userService;
 
-    public ResponseEntity signin (LoginVo data){
+    public ResponseEntity login (LoginVo data){
         try {
             var username = data.username();
             var password = data.password();
@@ -30,6 +32,30 @@ public class AuthService {
                     new UsernamePasswordAuthenticationToken(username, password));
 
             var user = userService.findUserByUsername(username);
+
+            TokenVo tokenVo;
+            if (user != null) {
+                tokenVo = jwtTokenProvider.createAccessToken(username, user.getRoles());
+            } else {
+                throw new UsernameNotFoundException("Username " + username + " not found!");
+            }
+            return ResponseEntity.ok(tokenVo);
+        } catch (Exception e) {
+            throw new BadCredentialsException("Invalid username/password supplied!");
+        }
+    }
+
+    public ResponseEntity signin (SigninVo data){
+        try {
+            var username = data.username();
+            var fullName = data.fullName();
+            var email = data.email();
+            var password = data.password();
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password));
+            User userToSave = new User(null, username,fullName, password, email, false, false, false, false);
+
+            var user = userService.saveUser(userToSave);
 
             TokenVo tokenVo;
             if (user != null) {
