@@ -8,9 +8,6 @@ import com.jebert.rsa.entities.address.repository.AddressRepository;
 import com.jebert.rsa.entities.city.service.CityService;
 import com.jebert.rsa.exceptions.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -26,6 +23,7 @@ public class AddressService {
     @Autowired
     private AddressRepository addressRepository;
     private String URL = "https://viacep.com.br/ws/";
+
     public AddressService() {
     }
 
@@ -39,22 +37,24 @@ public class AddressService {
     }
 
     public Optional<Address> findAddressById(UUID id) {
-        return Optional.of(addressRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Address not found with id:" + id.toString())));
+        return Optional.of(addressRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Address not found with id:" + id.toString())));
     }
 
     public Optional<Address> findAddressByCep(CEPVo cep) {
 
+        AddressVoVC x = new RestTemplate().getForEntity(URL + cep.cep() + "/json/", AddressVoVC.class).getBody();
 
-        AddressVoVC x = new RestTemplate().getForEntity( URL + cep.cep() + "/json/", AddressVoVC.class).getBody();
-
-        if (x.cep() == null) throw new ObjectNotFoundException("CEP: " + cep + " is not valid!");
+        if (x.cep() == null)
+            throw new ObjectNotFoundException("CEP: " + cep + " is not valid!");
         return Optional.of(convertFromAddressVoForViaCep(x));
     }
 
     public List<Address> findAddressByPartial(String state, String city, String street) {
 
         return Arrays.stream(
-                new RestTemplate().getForEntity(URL + state + "/" + city + "/" + street + "/json/", AddressVoVC[].class).getBody())
+                new RestTemplate().getForEntity(URL + state + "/" + city + "/" + street + "/json/", AddressVoVC[].class)
+                        .getBody())
                 .toList().stream().map(this::convertFromAddressVoForViaCep).collect(Collectors.toList());
 
     }
@@ -65,9 +65,9 @@ public class AddressService {
     }
 
     public Address convertFromAddressVoForViaCep(AddressVoVC vo) {
-        return new Address(null, vo.cep(), vo.logradouro(), null, vo.complemento(), vo.bairro(), false, cityService.findCityByIbgeCode(vo.ibge()));
+        return new Address(null, vo.cep(), vo.logradouro(), null, vo.complemento(), vo.bairro(), false,
+                cityService.findCityByIbgeCode(vo.ibge()));
     }
-
 
     public Address ConvertAddressFromVo(AddressVo addressVo) {
         Address address = findAddressByCep(new CEPVo(addressVo.cep())).get();

@@ -7,13 +7,12 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table(name = "users")
 @JsonPropertyOrder({"id","username","fullName","email","roles","accountNonExpired","accountNonLocked","credentialsNonExpired","enable"})
-public class User implements Serializable, UserDetails {
+public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
