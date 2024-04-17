@@ -14,10 +14,10 @@ public record ClientVo(
         String sex,
         @NotNull(message = "Please enter cpf!") String cpf,
         @NotNull(message = "Please enter Birthday!") Date birthday,
-        String mailOffers,
+        boolean mailOffers,
         @NotNull(message = "Please enter cpf!") String cep,
         @NotNull(message = "Please enter Address Number!") String addressNumber,
         String complement,
-        String addressDelivery
+        Boolean addressDelivery
         ){
 }

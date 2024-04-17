@@ -1,22 +1,18 @@
 package com.jebert.rsa.entities.Clients.model;
-import static com.ea.async.Async.await;
 import com.jebert.rsa.entities.Clients.helper.ClientType;
 import com.jebert.rsa.entities.address.model.Address;
-import com.jebert.rsa.entities.address.model.vo.CEPVo;
-import com.jebert.rsa.entities.address.service.AddressService;
 
-import java.util.Date;
+import java.util.*;
 
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties.Async;
+import org.apache.commons.lang3.ObjectUtils.Null;
 
 import com.jebert.rsa.entities.Clients.helper.ClientSex;
 import com.jebert.rsa.entities.user.model.User;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "clients")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Client  extends User{
 
     private ClientType type;
@@ -29,11 +25,29 @@ public class Client  extends User{
 
     private boolean mailoffers;
 
-    private Address address;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "client_addresses", joinColumns = {@JoinColumn (name = "id_user")},
+            inverseJoinColumns = {@JoinColumn (name = "id_address")}
+    )
+    private List<Address> addresses = new ArrayList<>();
 
     public ClientType getType() {
         return type;
     }
+
+    public Client(String userName, String fullName, String password, String email, Boolean accountNonExpired,
+            Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled, ClientType type, ClientSex sex,
+            String cpf, Date birthday, boolean mailoffers) {
+        super(null  ,userName, fullName, password, email, accountNonExpired, accountNonLocked, credentialsNonExpired,
+                enabled);
+        this.type = type;
+        this.sex = sex;
+        this.cpf = cpf;
+        this.birthday = birthday;
+        this.mailoffers = mailoffers;
+    }
+
+    public Client (){}
 
     public void setType(ClientType type) {
         this.type = type;
@@ -71,12 +85,12 @@ public class Client  extends User{
         this.mailoffers = mailoffers;
     }
 
-    public Address getAddress() {
-        return address;
+    public List<Address> getAddresses() {
+        return addresses;
     }
     
-    public void setAddress(Address addres) {
-        this.address = addres;
+    public void setAddresses(Address addresses) {
+        this.addresses.add(addresses);
     }
 
     @Override

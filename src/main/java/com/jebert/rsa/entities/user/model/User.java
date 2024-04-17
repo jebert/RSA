@@ -9,8 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
-@Entity
-@Table(name = "users")
+@MappedSuperclass
 @JsonPropertyOrder({"id","username","fullName","email","roles","accountNonExpired","accountNonLocked","credentialsNonExpired","enable"})
 public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
@@ -43,8 +42,7 @@ public class User implements UserDetails {
     @Column(name = "enabled")
     private Boolean enabled;
 
-    public User(UUID id, String userName, String fullName, String password, String email, Boolean accountNonExpired, Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled) {
-        this.id = id;
+    public User(UUID id, String userName, String fullName, String password, String email, Boolean accountNonExpired, Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled) {this.id = id;
         this.userName = userName;
         this.fullName = fullName;
         this.password = password;

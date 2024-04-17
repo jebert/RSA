@@ -56,7 +56,8 @@ public class SecurityConfig {
             "/address/**",
             "/auth/signin",
             "/auth/login",
-            "/auth/refresh/**"
+            "/auth/refresh/**",
+            "/user/**"
     };
 
     @Bean
@@ -68,7 +69,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests()
                 .requestMatchers( AUTH_WHITELIST).permitAll()
-                .requestMatchers(HttpMethod.POST, "/user/**").hasAuthority("ROLE_ADMIN")
+                //.requestMatchers(HttpMethod.POST, "/user/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and().apply(new JwtConfigurer(jwtTokenProvider))
                 .and().cors()

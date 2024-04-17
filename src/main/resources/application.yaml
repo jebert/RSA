@@ -1,13 +1,13 @@
 spring:
     flyway:
-        enabled: true
+        enabled: false
         locations:  sql
     jpa:
         database: POSTGRESQL
         show-sql: true
         database-platform: org.hibernate.dialect.PostgreSQLDialect
         hibernate: 
-            ddl-auto: none
+            ddl-auto: create
     sql:
         init:
             platform: postgres
@@ -23,4 +23,3 @@ security:
         token:
             secret-key: N3tW0rk5
             expire-lenght: 3600000
-

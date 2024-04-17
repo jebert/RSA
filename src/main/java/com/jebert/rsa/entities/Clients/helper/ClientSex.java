@@ -3,7 +3,7 @@ package com.jebert.rsa.entities.Clients.helper;
 public enum ClientSex {
     PJ("Masculino", "M"),
     PF("Feminino", "F"),
-    NI("Não Informado", "NI"),
+    NI("Não Informado", "NI");
 
     private final String name;
     private final String acronym;

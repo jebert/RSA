@@ -53,7 +53,7 @@ public class AuthService {
             var password = data.password();
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password));
-            User userToSave = new User(null, username,fullName, password, email, false, false, false, false);
+            User userToSave = new User( null, username,fullName, password, email, false, false, false, false);
 
             var user = userService.saveUser(userToSave);
 

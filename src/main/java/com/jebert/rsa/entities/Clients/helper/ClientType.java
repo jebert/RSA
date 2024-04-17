@@ -1,11 +1,13 @@
 package com.jebert.rsa.entities.Clients.helper;
 
 public enum ClientType {
+    
     PJ("Pessoa Jurídica", "pj"),
-    PF("Pessoa Física", "pf"),
+    PF("Pessoa Física", "pf");
 
-    private final String name;
+
     private final String acronym;
+    private final String name;
 
     private ClientType(final String name, final String acronym) {
         this.name = name;
